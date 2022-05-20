@@ -44,6 +44,7 @@ class GameScene {
 
 	float Angle(float angle);
 
+
   private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
