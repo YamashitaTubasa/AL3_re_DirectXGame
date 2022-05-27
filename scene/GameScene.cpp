@@ -61,7 +61,6 @@ void GameScene::Initialize() {
 	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
 
-
 	//乱数範囲(回転角用)
 	std::uniform_real_distribution<float> rotDist(0.0, 2 * PI);
 	//乱数範囲(座標用)
