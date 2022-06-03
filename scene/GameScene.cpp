@@ -109,7 +109,6 @@ void GameScene::Initialize() {
 		// 各軸の回転行列を合成
 		/*matRot = matRotZ * matRotX * matRotY;*/
 
-
 		// 平行移動行列を宣言
 		Matrix4 matTrans = MathUtility::Matrix4Identity();
 
