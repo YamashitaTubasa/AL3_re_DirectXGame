@@ -79,7 +79,6 @@ Matrix4 CreateMatRotationY(Vector3 rotation) {
 	return mat;
 }
 
-
 /// 平行移動
 Matrix4 CreateMatTranslation(Vector3 translation) {
 	Matrix4 lat = CreateMatIdentity();
