@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "PrimitiveDrawer.h"
+#include "Function.h"
 #include <random>
 
 #define PI 3.14
@@ -24,72 +25,7 @@ std::mt19937_64 engine(seed_gen());
 std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 std::uniform_real_distribution<float> rotDist(0.0f, 3.14f);
 
-/// 単位行列作成
-Matrix4 CreateMatIdentity() {
-	Matrix4 mat;
-	mat.m[0][0] = 1;
-	mat.m[1][1] = 1;
-	mat.m[2][2] = 1;
-	mat.m[3][3] = 1;
-	return mat;
-}
 
-/// スケーリング行列の作成
-Matrix4 CreateMatScale(Vector3 scale) {
-	Matrix4 mat;
-	mat.m[0][0] = scale.x;
-	mat.m[1][1] = scale.y;
-	mat.m[2][2] = scale.z;
-	mat.m[3][3] = 1.0f;
-
-	return mat;
-}
-
-/// Z軸の回転行列作成
-Matrix4 CreateMatRotationZ(Vector3 rotation) {
-	Matrix4 mat = CreateMatIdentity();
-	mat.m[0][0] = cos(rotation.z);
-	mat.m[0][1] = sin(rotation.z);
-	mat.m[1][0] = -sin(rotation.z);
-	mat.m[1][1] = cos(rotation.z);
-
-	return mat;
-}
-
-/// X軸の回転行列作成
-Matrix4 CreateMatRotationX(Vector3 rotation) {
-	Matrix4 mat = CreateMatIdentity();
-	mat.m[1][1] = cos(rotation.x);
-	mat.m[1][2] = sin(rotation.x);
-	mat.m[2][1] = -sin(rotation.x);
-	mat.m[2][2] = cos(rotation.x);
-
-	return mat;
-}
-
-
-/// Y軸の回転行列
-Matrix4 CreateMatRotationY(Vector3 rotation) {
-	Matrix4 mat = CreateMatIdentity();
-	mat.m[0][0] = cos(rotation.y);
-	mat.m[0][2] = -sin(rotation.y);
-	mat.m[2][0] = sin(rotation.y);
-	mat.m[2][2] = cos(rotation.y);
-
-	return mat;
-}
-
-
-/// 平行移動
-Matrix4 CreateMatTranslation(Vector3 translation) {
-	Matrix4 lat = CreateMatIdentity();
-	lat.m[3][0] = translation.x;
-	lat.m[3][1] = translation.y;
-	lat.m[3][2] = translation.z;
-	lat.m[3][3] = 1;
-
-	return lat;
-}
 
 //Matrix4 CreateMatRot(Vector3 Rotation) {
 //	Matrix4 Rot = CreateMatIdentity();
@@ -101,24 +37,24 @@ Matrix4 CreateMatTranslation(Vector3 translation) {
 //}
 
 // 大本から順に更新していく
-void CreatePartid(WorldTransform& worldTransform) {
-
-	//スケーリング・回転・平行移動を合成した行列を計算
-	worldTransform.matWorld_ = CreateMatIdentity();
-	worldTransform.matWorld_ *= CreateMatScale(worldTransform.scale_); // スケーリング行列作成
-	worldTransform.matWorld_ *= CreateMatRotationZ(worldTransform.rotation_);
-	worldTransform.matWorld_ *= CreateMatRotationY(worldTransform.rotation_);
-	worldTransform.matWorld_ *= CreateMatRotationX(worldTransform.rotation_);
-	worldTransform.matWorld_ *= CreateMatTranslation(worldTransform.translation_);
-
-	// 子供のワールド行列に親のワールド行列かける parent_ = nullではないとき
-	if (worldTransform.parent_ != nullptr) {
-		worldTransform.matWorld_ *= worldTransform.parent_->matWorld_;
-	}
-
-	//行列の転送
-	worldTransform.TransferMatrix();
-}
+//void CreatePartid(WorldTransform& worldTransform) {
+//
+//	//スケーリング・回転・平行移動を合成した行列を計算
+//	worldTransform.matWorld_ = CreateMatIdentity();
+//	worldTransform.matWorld_ *= CreateMatScale(worldTransform.scale_); // スケーリング行列作成
+//	worldTransform.matWorld_ *= CreateMatRotationZ(worldTransform.rotation_);
+//	worldTransform.matWorld_ *= CreateMatRotationY(worldTransform.rotation_);
+//	worldTransform.matWorld_ *= CreateMatRotationX(worldTransform.rotation_);
+//	worldTransform.matWorld_ *= CreateMatTranslation(worldTransform.translation_);
+//
+//	// 子供のワールド行列に親のワールド行列かける parent_ = nullではないとき
+//	if (worldTransform.parent_ != nullptr) {
+//		worldTransform.matWorld_ *= worldTransform.parent_->matWorld_;
+//	}
+//
+//	//行列の転送
+//	worldTransform.TransferMatrix();
+//}
 
 GameScene::GameScene() {}
 
@@ -414,31 +350,30 @@ void GameScene::Update() {
 
 	// 大元から順に更新していく
 	for (int i = 0; i < kNumPartid; i++) {
-		CreatePartid(worldTransforms_[i]);
-		
-		//Matrix4 matScale = CreateMatScale(worldTransforms_[i].scale_); // スケーリング行列作成
+		/*CreatePartid(worldTransforms_[i]);*/
+		Matrix4 matScale = CreateMatScale(worldTransforms_[i].scale_); // スケーリング行列作成
 
-		//Matrix4 matRotZ = CreateMatRotationZ(worldTransforms_[i].rotation_);
-		//Matrix4 matRotY = CreateMatRotationY(worldTransforms_[i].rotation_);
-		//Matrix4 matRotX = CreateMatRotationX(worldTransforms_[i].rotation_);
+		Matrix4 matRotZ = CreateMatRotationZ(worldTransforms_[i].rotation_);
+		Matrix4 matRotY = CreateMatRotationY(worldTransforms_[i].rotation_);
+		Matrix4 matRotX = CreateMatRotationX(worldTransforms_[i].rotation_);
 
-		//Matrix4 lat = CreateMatTranslation(worldTransforms_[i].translation_);
+		Matrix4 lat = CreateMatTranslation(worldTransforms_[i].translation_);
 
-		////スケーリング・回転・平行移動を合成した行列を計算
-		//worldTransforms_[i].matWorld_ = CreateMatIdentity();
-		//worldTransforms_[i].matWorld_ *= matScale; // worldTransform.matWorld_ *= CreateMatScale(worldTransform.scale_); これでも可
-		//worldTransforms_[i].matWorld_ *= matRotZ;
-		//worldTransforms_[i].matWorld_ *= matRotY;
-		//worldTransforms_[i].matWorld_ *= matRotX;
-		//worldTransforms_[i].matWorld_ *= CreateMatTranslation(worldTransforms_[i].translation_);
+		//スケーリング・回転・平行移動を合成した行列を計算
+		worldTransforms_[i].matWorld_ = CreateMatIdentity();
+		worldTransforms_[i].matWorld_ *= matScale; // worldTransform.matWorld_ *= CreateMatScale(worldTransform.scale_); これでも可
+		worldTransforms_[i].matWorld_ *= matRotZ;
+		worldTransforms_[i].matWorld_ *= matRotY;
+		worldTransforms_[i].matWorld_ *= matRotX;
+		worldTransforms_[i].matWorld_ *= CreateMatTranslation(worldTransforms_[i].translation_);
 
-		//// 子供のワールド行列に親のワールド行列かける parent_ = nullではないとき
-		//if (worldTransforms_[i].parent_ != nullptr) {
-		//	worldTransforms_[i].matWorld_ *= worldTransforms_[i].parent_->matWorld_;
-		//}
+		// 子供のワールド行列に親のワールド行列かける parent_ = nullではないとき
+		if (worldTransforms_[i].parent_ != nullptr) {
+			worldTransforms_[i].matWorld_ *= worldTransforms_[i].parent_->matWorld_;
+		}
 
-		////行列の転送
-		//worldTransforms_[i].TransferMatrix();
+		//行列の転送
+		worldTransforms_[i].TransferMatrix();
 	}
 
 	// 上半身回転処理
