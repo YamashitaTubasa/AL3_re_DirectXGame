@@ -68,3 +68,29 @@ Matrix4 CreateMatTranslation(Vector3 translation) {
 
 	return lat;
 }
+
+void CreatePartid(WorldTransform& worldTransform_) {
+
+	//スケーリング・回転・平行移動を合成した行列を計算
+	worldTransform_.matWorld_ = CreateMatIdentity();
+	worldTransform_.matWorld_ *= CreateMatScale(worldTransform_.scale_); // スケーリング行列作成
+	worldTransform_.matWorld_ *= CreateMatRotationZ(worldTransform_.rotation_);
+	worldTransform_.matWorld_ *= CreateMatRotationY(worldTransform_.rotation_);
+	worldTransform_.matWorld_ *= CreateMatRotationX(worldTransform_.rotation_);
+	worldTransform_.matWorld_ *= CreateMatTranslation(worldTransform_.translation_);
+
+	//行列の転送
+	worldTransform_.TransferMatrix();
+}
+
+void Rotate(WorldTransform& worldTransform_, Input* input_) {
+	// キャラクターの旋回処理
+	Vector3 turn = { 0,0.1f,0 };
+	// 押した方向で移動ベクトルを変更
+	if (input_->PushKey(DIK_U)) {
+		worldTransform_.rotation_ += turn;
+	}
+	else if (input_->PushKey(DIK_I)) {
+		worldTransform_.rotation_ -= turn;
+	}
+}

@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "DebugText.h"
 #include "ViewProjection.h"
+#include "PlayerBullet.h"
 
 /// <summary>
 /// 自キャラ
@@ -30,6 +31,10 @@ public:
 	/// <param name="viewProjectione">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection viewProjection_);
 
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
 
 private:
 	// ワールド変換データ
@@ -42,5 +47,6 @@ private:
 	Input* input_ = nullptr;
 	// デバックテキスト
     DebugText* debugText_ = nullptr;
-	
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 };

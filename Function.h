@@ -1,4 +1,6 @@
 #include "worldTransform.h"
+#include "Input.h"
+
 /// 単位行列作成
 Matrix4 CreateMatIdentity();
 
@@ -18,3 +20,9 @@ Matrix4 CreateMatRotationY(Vector3 rotation);
 
 /// 平行移動
 Matrix4 CreateMatTranslation(Vector3 translation);
+
+// ワールドトランスフォームの更新
+void CreatePartid(WorldTransform& worldTransform_);
+
+// キャラクターの旋回処理
+void Rotate(WorldTransform& worldTransform_, Input* input_);
