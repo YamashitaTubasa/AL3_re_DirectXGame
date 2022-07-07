@@ -24,22 +24,12 @@ public: // メンバ関数
   /// </summary>
 	GameScene();
 
-	//3Dモデル
-	Model* model_ = nullptr;
-
 	//ワールドトランスフォーム
 	/*WorldTransform worldTransforms_[100];*/
-
-	//ビュープロジェクション
-	ViewProjection viewProjection_;
 
 	//カメラ上方向の角度
 	float viewAngle = 4.0f;
 
-	// 自キャラ
-	Player* player_ = nullptr;
-
-public:
 	//パーツID
 	enum Partid {
 		kRoot,    // 大本
@@ -81,13 +71,16 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
-
+	//3Dモデル
+	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
-
+	// 自キャラ
+	Player* player_ = nullptr;
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
-
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

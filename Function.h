@@ -13,10 +13,8 @@ Matrix4 CreateMatRotationZ(Vector3 rotation);
 /// X²‚Ì‰ñ“]s—ñì¬
 Matrix4 CreateMatRotationX(Vector3 rotation);
 
-
 /// Y²‚Ì‰ñ“]s—ñ
 Matrix4 CreateMatRotationY(Vector3 rotation);
-
 
 /// •½sˆÚ“®
 Matrix4 CreateMatTranslation(Vector3 translation);
