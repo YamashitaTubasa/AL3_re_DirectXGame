@@ -107,4 +107,5 @@ void Player::Attack() {
         // ‹…‚ð“o˜^‚·‚é
         bullets_.push_back(std::move(newBullet));
     }
+
 }
