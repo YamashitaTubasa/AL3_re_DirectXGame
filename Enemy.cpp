@@ -32,7 +32,6 @@ void Enemy::Update() {
 
     worldTransform_.translation_ += move;
 
-
     // s—ñXV
     worldTransform_.matWorld_ = CreateMatIdentity();
     worldTransform_.matWorld_ *= CreateMatScale(worldTransform_.scale_);
