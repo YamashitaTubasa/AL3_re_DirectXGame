@@ -20,7 +20,9 @@ Matrix4 CreateMatRotationY(Vector3 rotation);
 Matrix4 CreateMatTranslation(Vector3 translation);
 
 // ワールドトランスフォームの更新
-void CreatePartid(WorldTransform& worldTransform_);
+void CreateMatrixUpdate(WorldTransform& worldTransform_);
 
 // キャラクターの旋回処理
 void Rotate(WorldTransform& worldTransform_, Input* input_);
+
+Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform);

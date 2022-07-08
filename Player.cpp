@@ -6,6 +6,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
     // NULLポインタチェック
     assert(model);
 
+    // メンバ変数に代入
     model_ = model;
     textureHandle_ = textureHandle; 
 
@@ -18,6 +19,12 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 }
 
 void Player::Update() {
+
+    // デスフラグの立った弾を削除
+    bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+        return bullet->IsDead();
+        });
+
     // キャラクターの移動ベクトル
     Vector3 move = { 0,0,0 };
 
@@ -83,12 +90,19 @@ void Player::Draw(ViewProjection viewProjection_) {
 
 void Player::Attack() {
     if (input_->PushKey(DIK_SPACE)) {
+        // 弾の速度
+        const float kBulletSpeed = 1.0f;
+        Vector3 velocity(0, 0, kBulletSpeed);
+
+        // 速度ベクトルを自機の向きに合わせて回転させる
+        velocity = CreateVector(velocity, worldTransform_);
+
         // 自キャラの座標をコピー
         Vector3 position = worldTransform_.translation_;
 
         // 弾を生成し、初期化
         std::unique_ptr<PlayerBullet>newBullet = std::make_unique<PlayerBullet>();
-        newBullet->Initialize(model_, position);
+        newBullet->Initialize(model_, position, velocity);
 
         // 球を登録する
         bullets_.push_back(std::move(newBullet));

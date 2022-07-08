@@ -69,7 +69,8 @@ Matrix4 CreateMatTranslation(Vector3 translation) {
 	return lat;
 }
 
-void CreatePartid(WorldTransform& worldTransform_) {
+// 行列更新
+void CreateMatrixUpdate(WorldTransform& worldTransform_) {
 
 	//スケーリング・回転・平行移動を合成した行列を計算
 	worldTransform_.matWorld_ = CreateMatIdentity();
@@ -83,7 +84,9 @@ void CreatePartid(WorldTransform& worldTransform_) {
 	worldTransform_.TransferMatrix();
 }
 
-void Rotate(WorldTransform& worldTransform_, Input* input_) {
+// キャラクターの旋回処理
+void Rotate(WorldTransform& worldTransform_, Input* input_)
+{
 	// キャラクターの旋回処理
 	Vector3 rotation = { 0,0.1f,0 };
 	// 押した方向で移動ベクトルを変更
@@ -93,4 +96,12 @@ void Rotate(WorldTransform& worldTransform_, Input* input_) {
 	else if (input_->PushKey(DIK_I)) {
 		worldTransform_.rotation_ -= rotation;
 	}
+}
+
+Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
+	Vector3 dirVector;
+	dirVector.x = velocity.x * worldTransform.matWorld_.m[0][0] + velocity.y * worldTransform.matWorld_.m[1][0] + velocity.z * worldTransform.matWorld_.m[2][0];
+	dirVector.y = velocity.x * worldTransform.matWorld_.m[0][1] + velocity.y * worldTransform.matWorld_.m[1][1] + velocity.z * worldTransform.matWorld_.m[2][1];
+	dirVector.z = velocity.x * worldTransform.matWorld_.m[0][2] + velocity.y * worldTransform.matWorld_.m[1][2] + velocity.z * worldTransform.matWorld_.m[2][2];
+	return dirVector;
 }
