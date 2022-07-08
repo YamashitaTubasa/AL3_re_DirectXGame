@@ -21,28 +21,28 @@ void Player::Update() {
     Vector3 move = { 0,0,0 };
 
     //キャラクターの移動の速さ
-    const float kCharacterSpeed = 0.3f;
+    const float characterSpeed = 0.3f;
 
 
     // 移動ベクトルを変更する処理
     if (input_->PushKey(DIK_LEFT)) {
-        move.x -= kCharacterSpeed;
+        move.x -= characterSpeed;
     }
     if (input_->PushKey(DIK_RIGHT)) {
-        move.x += kCharacterSpeed;
+        move.x += characterSpeed;
     }
     if (input_->PushKey(DIK_UP)) {
-        move.y += kCharacterSpeed;
+        move.y += characterSpeed;
     }
     if (input_->PushKey(DIK_DOWN)) {
-        move.y -= kCharacterSpeed;
+        move.y -= characterSpeed;
     }
     
     // 座標移動(ベクトルの加算)
     
     // 移動限界座標
     const float kMoveLimitX = 35;
-    const float kMoveLimitY = 18;
+    const float kMoveLimitY = 19;
 
     // 範囲を超えない処理worldTrandform_.translation_値に制限をかける
     worldTransform_.translation_.x= max(worldTransform_.translation_.x, -kMoveLimitX);
