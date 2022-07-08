@@ -38,6 +38,7 @@ void Player::Update() {
         move.y -= characterSpeed;
     }
 
+
     // 座標移動(ベクトルの加算)
 
     // 移動限界座標
