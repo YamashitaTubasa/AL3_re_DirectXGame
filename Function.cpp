@@ -85,12 +85,12 @@ void CreatePartid(WorldTransform& worldTransform_) {
 
 void Rotate(WorldTransform& worldTransform_, Input* input_) {
 	// キャラクターの旋回処理
-	Vector3 turn = { 0,0.1f,0 };
+	Vector3 rotation = { 0,0.1f,0 };
 	// 押した方向で移動ベクトルを変更
 	if (input_->PushKey(DIK_U)) {
-		worldTransform_.rotation_ += turn;
+		worldTransform_.rotation_ += rotation;
 	}
 	else if (input_->PushKey(DIK_I)) {
-		worldTransform_.rotation_ -= turn;
+		worldTransform_.rotation_ -= rotation;
 	}
 }
