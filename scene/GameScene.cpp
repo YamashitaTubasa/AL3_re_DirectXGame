@@ -51,6 +51,12 @@ void GameScene::Initialize() {
 
 	// 自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
+
+	// 敵キャラの生成
+	enemy_ = new Enemy();
+
+	// 敵キャラの初期化
+	enemy_->Initialize(model_, textureHandle_);
 	
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
@@ -108,6 +114,9 @@ void GameScene::Update() {
 
 	// 自キャラの更新
 	player_->Update();
+
+	// 敵キャラの更新
+	enemy_->Update();
 
 	////-------クリップ距離変更処理-------////
 	//{
@@ -268,6 +277,9 @@ void GameScene::Draw() {
 	
 	// 自キャラの描画
 	player_->Draw(viewProjection_);
+
+	// 敵キャラの描画
+	enemy_->Draw(viewProjection_);
 	
 	////3Dモデル
 	//model_->Draw(worldTransforms_[100], viewProjection_, textureHandle_);

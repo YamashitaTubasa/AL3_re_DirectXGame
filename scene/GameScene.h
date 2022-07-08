@@ -12,6 +12,8 @@
 #include "DebugCamera.h"
 #include "AxisIndicator.h"
 #include "Player.h"
+#include "Enemy.h"
+
 
 /// <summary>
 /// ゲームシーン
@@ -77,6 +79,8 @@ private: // メンバ変数
 	uint32_t textureHandle_ = 0;
 	// 自キャラ
 	Player* player_ = nullptr;
+	// 敵キャラ
+	Enemy* enemy_ = nullptr;
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	//ビュープロジェクション
