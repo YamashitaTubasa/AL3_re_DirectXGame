@@ -24,11 +24,13 @@ void Enemy::Update() {
     Vector3 move = { 0,0,0 };
 
     //キャラクターの移動の速さ
-    const float EnemySpeed = 0.5f;
+    const float EnemySpeed = 0.3f;
+    const float EnemyYSpeed = 0.01f;
 
     // 座標移動(ベクトルの加算)
 
     move.z -= EnemySpeed;
+    move.y += EnemyYSpeed;
 
     worldTransform_.translation_ += move;
 
