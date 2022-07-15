@@ -32,7 +32,6 @@ void Enemy::Update() {
     // 座標移動(ベクトルの加算)
     /*move.z -= EnemySpeed;
     move.y += EnemyYSpeed;*/
-
     /* worldTransform_.translation_ += move;*/
 
     // 行列更新
