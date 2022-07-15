@@ -1,8 +1,7 @@
 #include "Function.h"
-#include "worldTransform.h"
-#include <math.h>
+#include "Enemy.h"
 
-/// 単位行列作成
+// 単位行列作成
 Matrix4 CreateMatIdentity() {
 	Matrix4 mat;
 	mat.m[0][0] = 1;
@@ -12,7 +11,7 @@ Matrix4 CreateMatIdentity() {
 	return mat;
 }
 
-/// スケーリング行列の作成
+// スケーリング行列の作成
 Matrix4 CreateMatScale(Vector3 scale) {
 	Matrix4 mat;
 	mat.m[0][0] = scale.x;
@@ -23,7 +22,7 @@ Matrix4 CreateMatScale(Vector3 scale) {
 	return mat;
 }
 
-/// Z軸の回転行列作成
+// Z軸の回転行列作成
 Matrix4 CreateMatRotationZ(Vector3 rotation) {
 	Matrix4 mat = CreateMatIdentity();
 	mat.m[0][0] = cos(rotation.z);
@@ -34,7 +33,7 @@ Matrix4 CreateMatRotationZ(Vector3 rotation) {
 	return mat;
 }
 
-/// X軸の回転行列作成
+// X軸の回転行列作成
 Matrix4 CreateMatRotationX(Vector3 rotation) {
 	Matrix4 mat = CreateMatIdentity();
 	mat.m[1][1] = cos(rotation.x);
@@ -46,7 +45,7 @@ Matrix4 CreateMatRotationX(Vector3 rotation) {
 }
 
 
-/// Y軸の回転行列
+// Y軸の回転行列
 Matrix4 CreateMatRotationY(Vector3 rotation) {
 	Matrix4 mat = CreateMatIdentity();
 	mat.m[0][0] = cos(rotation.y);
@@ -58,7 +57,7 @@ Matrix4 CreateMatRotationY(Vector3 rotation) {
 }
 
 
-/// 平行移動
+// 平行移動
 Matrix4 CreateMatTranslation(Vector3 translation) {
 	Matrix4 lat = CreateMatIdentity();
 	lat.m[3][0] = translation.x;
@@ -107,18 +106,3 @@ Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
 	return dirVector;
 }
 
-// 接近フェーズの更新
-//void AccessPhaseUpdate(WorldTransform& worldTransform_,Vector3 move,Phase phase_) {
-//	// 移動 (ベクトルを加算)
-//	worldTransform_.translation_ += move;
-//	// 既定の位置に到達したら離脱
-//	if (worldTransform_.translation_.z < 0.0f) {
-//		phase_ = Enemy::Phase::Leave;
-//	}
-//}
-//
-//// 離脱フェーズの更新
-//void EliminationPhaseUpdate(WorldTransform& worldTransform_,Vector3 move, Phase phase_) {
-//	// 移動（ベクトルを加算）
-//	worldTransform_.translation_ += move;
-//}

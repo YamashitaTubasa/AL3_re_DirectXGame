@@ -26,41 +26,47 @@ void Enemy::Update() {
     //キャラクターの移動の速さ
     const float EnemySpeed = 0.3f;
     const float EnemyYSpeed = 0.01f;
-
-    // 座標移動(ベクトルの加算)
-
-    move.z -= EnemySpeed;
-    move.y += EnemyYSpeed;
-
-    worldTransform_.translation_ += move;
     const float accessPhaseSpeed = 0.3f; // 接近フェーズのスピード
     const float eliminationPhaseSpeed = 0.3f; // 離脱フェーズの速度
+
+    // 座標移動(ベクトルの加算)
+    /*move.z -= EnemySpeed;
+    move.y += EnemyYSpeed;*/
+
+    /* worldTransform_.translation_ += move;*/
+
     // 行列更新
-    worldTransform_.matWorld_ = CreateMatIdentity();
-    worldTransform_.matWorld_ *= CreateMatScale(worldTransform_.scale_);
-    worldTransform_.matWorld_ *= CreateMatRotationX(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatRotationY(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatRotationZ(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatTranslation(worldTransform_.translation_);
-    worldTransform_.TransferMatrix();
+    CreateMatrixUpdate(worldTransform_);
 
     switch (phase_) {
     case Enemy::Phase::Approach:
     default:
-        // 移動 (ベクトルを加算)
-        worldTransform_.translation_ += move;
-        // 既定の位置に到達したら離脱
-        if (worldTransform_.translation_.z < 0.0f) {
-            phase_ = Enemy::Phase::Leave;
-        }
+        // 接近フェーズの更新
+        AccessPhaseUpdate();
         break;
     case Enemy::Phase::Leave:
-        // 移動（ベクトルを加算）
-        worldTransform_.translation_ += move;
+        // 離脱フェーズの更新
+        EliminationPhaseUpdate();
         break;
     }
 }
 
 void Enemy::Draw(ViewProjection viewProjection_) {
     model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+}
+
+// 接近フェーズの更新
+void Enemy::AccessPhaseUpdate() {
+    // 移動 (ベクトルを加算)
+    worldTransform_.translation_ -= {0.0, 0.0, 0.05};
+    //規定の位置に到達したら離脱
+    if (worldTransform_.translation_.z < -10.0f) {
+        phase_ = Enemy::Phase::Leave;
+    }
+}
+
+// 離脱フェーズの更新
+void Enemy::EliminationPhaseUpdate() {
+    // 移動（ベクトルを加算）
+    worldTransform_.translation_ += {0.05, 0.05, 0};
 }

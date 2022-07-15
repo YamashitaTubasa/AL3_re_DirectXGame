@@ -44,6 +44,10 @@ private:
 	// デバックテキスト
 	DebugText* debugText_ = nullptr;
 	// フェーズ
-	Phase phase_ ;
+	Phase phase_ = Phase::Approach;
+	// 接近フェーズの更新
+	void AccessPhaseUpdate();
+	// 離脱フェーズの更新
+	void EliminationPhaseUpdate();
 };
 
