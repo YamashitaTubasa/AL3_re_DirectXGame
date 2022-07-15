@@ -98,6 +98,7 @@ void Rotate(WorldTransform& worldTransform_, Input* input_)
 	}
 }
 
+// 速度ベクトルを自機の向きに合わせて回転させる
 Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
 	Vector3 dirVector;
 	dirVector.x = velocity.x * worldTransform.matWorld_.m[0][0] + velocity.y * worldTransform.matWorld_.m[1][0] + velocity.z * worldTransform.matWorld_.m[2][0];
@@ -105,3 +106,19 @@ Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
 	dirVector.z = velocity.x * worldTransform.matWorld_.m[0][2] + velocity.y * worldTransform.matWorld_.m[1][2] + velocity.z * worldTransform.matWorld_.m[2][2];
 	return dirVector;
 }
+
+// 接近フェーズの更新
+//void AccessPhaseUpdate(WorldTransform& worldTransform_,Vector3 move,Phase phase_) {
+//	// 移動 (ベクトルを加算)
+//	worldTransform_.translation_ += move;
+//	// 既定の位置に到達したら離脱
+//	if (worldTransform_.translation_.z < 0.0f) {
+//		phase_ = Enemy::Phase::Leave;
+//	}
+//}
+//
+//// 離脱フェーズの更新
+//void EliminationPhaseUpdate(WorldTransform& worldTransform_,Vector3 move, Phase phase_) {
+//	// 移動（ベクトルを加算）
+//	worldTransform_.translation_ += move;
+//}

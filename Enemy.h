@@ -26,6 +26,12 @@ public:
 	/// <param name="viewProjectione">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection viewProjection_);
 
+	// 行動フェーズ
+	enum class Phase {
+		Approach, // 接近する
+		Leave,    // 離脱する
+	};
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -37,5 +43,7 @@ private:
 	Input* input_ = nullptr;
 	// デバックテキスト
 	DebugText* debugText_ = nullptr;
+	// フェーズ
+	Phase phase_ ;
 };
 

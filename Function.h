@@ -1,5 +1,6 @@
 #include "worldTransform.h"
 #include "Input.h"
+#include "Enemy.h"
 
 /// 単位行列作成
 Matrix4 CreateMatIdentity();
@@ -25,5 +26,11 @@ void CreateMatrixUpdate(WorldTransform& worldTransform_);
 // キャラクターの旋回処理
 void Rotate(WorldTransform& worldTransform_, Input* input_);
 
-// 
+// 速度ベクトルを自機の向きに合わせて回転させる
 Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform);
+
+// 接近フェーズの更新
+//void AccessPhaseUpdate(WorldTransform& worldTransform_, Vector3 move, Phase phase_);
+//
+//// 離脱フェーズの更新
+//void EliminationPhaseUpdate(WorldTransform& worldTransform_, Vector3 move, Phase phase_);
