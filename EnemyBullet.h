@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Model.h"
 #include "WorldTransform.h"
+#include "Model.h"
 
 /// <summary>
-/// 自機の弾
+/// 敵の弾
 /// </summary>
-class PlayerBullet
+class EnemyBullet
 {
 public:
 	/// <summary>
@@ -33,7 +33,7 @@ private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 	// モデル
-	Model* model_ = nullptr;
+	Model* model_;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	// 速度

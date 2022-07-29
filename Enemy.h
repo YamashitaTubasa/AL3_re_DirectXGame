@@ -4,6 +4,11 @@
 #include "Model.h"
 #include "Input.h"
 #include "DebugText.h"
+#include "EnemyBullet.h"
+#include <memory>
+#include <list>
+
+//class Player;
 
 class Enemy
 {
@@ -26,11 +31,24 @@ public:
 	/// <param name="viewProjectione">ビュープロジェクション（参照渡し）</param>
 	void Draw(ViewProjection viewProjection_);
 
+	/// <summary>
+	/// 弾の発射
+	/// </summary>
+	void Fire();
+
 	// 行動フェーズ
 	enum class Phase {
 		Approach, // 接近する
 		Leave,    // 離脱する
 	};
+
+	// 発射間隔
+	static const int kFireInterval = 60;
+
+	// 接近フェーズの初期化
+	void ApproachInitialize();
+
+	/*void SetPlayer(Player* player) { player_ = player; }*/
 
 private:
 	// ワールド変換データ
@@ -45,9 +63,15 @@ private:
 	DebugText* debugText_ = nullptr;
 	// フェーズ
 	Phase phase_ = Phase::Approach;
+	// 弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	// 接近フェーズの更新
 	void AccessPhaseUpdate();
 	// 離脱フェーズの更新
 	void EliminationPhaseUpdate();
+	// 発射タイマー
+	int32_t fireTimer = 0;
+	// 自キャラ
+	/*Player* player_ = nullptr;*/
 };
 

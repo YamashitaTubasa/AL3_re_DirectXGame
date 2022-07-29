@@ -10,15 +10,25 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
     model_ = model;
     textureHandle_ = textureHandle;
 
+    // 敵キャラの回転
+    worldTransform_.rotation_ = { 0, 3.0f, 0 };
+
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
     debugText_ = DebugText::GetInstance();
 
     // ワールド変換の初期化
     worldTransform_.Initialize();
+
+    // 接近フェーズの初期化
+    ApproachInitialize();
 }
 
 void Enemy::Update() {
+    // デスフラグの立った弾を削除
+    bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+        return bullet->IsDead();
+        });
 
     // キャラクターの移動ベクトル
     Vector3 move = { 0,0,0 };
@@ -49,20 +59,67 @@ void Enemy::Update() {
         EliminationPhaseUpdate();
         break;
     }
+
+    // 弾更新
+    for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+        bullet->Update();
+    }
 }
 
 void Enemy::Draw(ViewProjection viewProjection_) {
     model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+    
+    // 弾描画
+    for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+        bullet->Draw(viewProjection_);
+    }
+}
+
+void Enemy::Fire() {
+    // 弾の速度
+    const float kBulletSpeed = 1.0f;
+    Vector3 velocity(0, 0, kBulletSpeed);
+
+    // 速度ベクトルを自機の向きに合わせて回転させる
+    velocity = CreateVector(velocity, worldTransform_);
+
+    // 自キャラの座標をコピー
+    Vector3 position = worldTransform_.translation_;
+
+    // 弾を生成し、初期化
+    std::unique_ptr<EnemyBullet>newBullet = std::make_unique<EnemyBullet>();
+    newBullet->Initialize(model_, position, velocity);
+
+    // 球を登録する
+    bullets_.push_back(std::move(newBullet));
 }
 
 // 接近フェーズの更新
 void Enemy::AccessPhaseUpdate() {
     // 移動 (ベクトルを加算)
     worldTransform_.translation_ -= {0.0, 0.0, 0.05};
+
     //規定の位置に到達したら離脱
     if (worldTransform_.translation_.z < -10.0f) {
         phase_ = Enemy::Phase::Leave;
     }
+
+    // 発射タイマーカウントダウン
+    fireTimer--;
+
+    // 指定時間に達した
+    if (fireTimer <= 0) {
+        // 弾を発射
+        Fire();
+        // 発射タイマーを初期化
+        fireTimer = kFireInterval;
+    }
+}
+
+// 接近フェーズの初期化
+void Enemy::ApproachInitialize() {
+    // 発射タイマーを初期化
+    fireTimer = kFireInterval;
 }
 
 // 離脱フェーズの更新

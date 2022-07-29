@@ -1,8 +1,8 @@
-#include "PlayerBullet.h"
+#include "EnemyBullet.h"
 #include "Function.h"
 #include <assert.h>
 
-void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity){
+void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	// NULLポインタチェック
 	assert(model);
 	model_ = model;
@@ -20,19 +20,18 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	worldTransform_.translation_ = position;
 }
 
-void PlayerBullet::Update() {
+void EnemyBullet::Update() {
 	// 座標を移動させる（１フレーム分の移動量を足しこむ）
 	worldTransform_.translation_ += velocity_;
-
 	// 時間経過でデス
 	if (--deathTimer_ <= 0) {
 		isDead_ = true;
 	}
 
-	// 行列更新
+	// ワールドトランスフォームの更新
 	CreateMatrixUpdate(worldTransform_);
 }
 
-void PlayerBullet::Draw(const ViewProjection& viewProjection) {
+void EnemyBullet::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
