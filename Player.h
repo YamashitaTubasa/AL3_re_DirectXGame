@@ -15,6 +15,7 @@
 class Player
 {
 public:
+
 	/// <summary>
 	/// ‰Šú‰»
 	/// </summary>
