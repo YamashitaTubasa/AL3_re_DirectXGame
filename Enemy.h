@@ -5,10 +5,12 @@
 #include "Input.h"
 #include "DebugText.h"
 #include "EnemyBullet.h"
+#include "Player.h"
 #include <memory>
 #include <list>
 
-//class Player;
+// 自機クラスの前方宣言
+class Player;
 
 class Enemy
 {
@@ -48,7 +50,10 @@ public:
 	// 接近フェーズの初期化
 	void ApproachInitialize();
 
-	/*void SetPlayer(Player* player) { player_ = player; }*/
+	void SetPlayer(Player* player) { player_ = player; }
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールド変換データ
@@ -72,6 +77,6 @@ private:
 	// 発射タイマー
 	int32_t fireTimer = 0;
 	// 自キャラ
-	/*Player* player_ = nullptr;*/
+	Player* player_ = nullptr;
 };
 

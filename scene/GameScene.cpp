@@ -9,11 +9,11 @@
 
 float GameScene::Angle(float angle)
 {
-	return angle * PI / 180;
+	return (float)angle * PI / 180;
 }
 
 float Degree(const float& degree) {
-	float n = degree * PI / 180;
+	float n = (float)degree * PI / 180;
 	return n;
 }
 
@@ -57,6 +57,9 @@ void GameScene::Initialize() {
 
 	// 敵キャラの初期化
 	enemy_->Initialize(model_, textureHandle_);
+
+	// 敵キャラに時期キャラのアドレスを渡す
+	enemy_->SetPlayer(player_);
 	
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
