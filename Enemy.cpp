@@ -145,6 +145,7 @@ void Enemy::EliminationPhaseUpdate() {
     worldTransform_.translation_ += {0.05, 0.05, 0};
 }
 
+
 Vector3 Enemy::GetWorldPosition() {
     //ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚é•Ï”
     Vector3 worldPos;
