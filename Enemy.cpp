@@ -11,7 +11,10 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
     textureHandle_ = textureHandle;
 
     // 敵キャラの回転
-    worldTransform_.rotation_ = { 0, 3.0f, 0 };
+    worldTransform_.rotation_ = { 0, 0, 0 };
+
+    // 敵キャラの位置
+    worldTransform_.translation_ = { 0,0,40 };
 
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
@@ -82,9 +85,20 @@ void Enemy::Fire() {
     const float kBulletSpeed = 1.0f;
     Vector3 velocity(0, 0, kBulletSpeed);
 
-
-    // 速度ベクトルを自機の向きに合わせて回転させる
-    velocity = CreateVector(velocity, worldTransform_);
+    // 自機キャラのワールド座標を取得
+    Vector3 playerPos = player_->GetWorldPosition();
+    // 敵キャラのワールド座標を取得
+    Vector3 enemyPos = this->GetWorldPosition();
+    // 敵キャラ→自キャラの差分ベクトルを求める
+    Vector3 vector = playerPos;
+    vector -= enemyPos;
+    float length = (float)std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+    // ベクトルの正規化
+    if (length != 0) {
+        vector /= length;
+    }
+    // ベクトルの長さを、速さに合わせる
+    velocity = vector;
 
     // 自キャラの座標をコピー
     Vector3 position = worldTransform_.translation_;
@@ -103,7 +117,7 @@ void Enemy::AccessPhaseUpdate() {
     worldTransform_.translation_ -= {0.0, 0.0, 0.05};
 
     //規定の位置に到達したら離脱
-    if (worldTransform_.translation_.z < -10.0f) {
+    if (worldTransform_.translation_.z < 0.0f) {
         phase_ = Enemy::Phase::Leave;
     }
 
