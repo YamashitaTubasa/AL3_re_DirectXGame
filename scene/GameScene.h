@@ -13,6 +13,7 @@
 #include "AxisIndicator.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 
 
 /// <summary>
@@ -66,6 +67,11 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollisions();
+
 	float Angle(float angle);
 
 private: // メンバ変数
@@ -81,6 +87,8 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 	// 敵キャラ
 	Enemy* enemy_ = nullptr;
+	// 敵弾
+	EnemyBullet* enemyBullet_ = nullptr;
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	//ビュープロジェクション

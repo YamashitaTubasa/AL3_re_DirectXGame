@@ -121,3 +121,9 @@ Vector3  Player::GetWorldPosition() {
     worldPos.z = worldTransform_.matWorld_.m[3][2];
     return worldPos;
 }
+
+void Player::OnCollision() {}
+
+float Player::GetRadius() {
+    return radius_;
+}

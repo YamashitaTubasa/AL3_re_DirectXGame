@@ -30,3 +30,8 @@ void Rotate(WorldTransform& worldTransform_, Input* input_);
 // 速度ベクトルを自機の向きに合わせて回転させる
 Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform);
 
+Vector3 Vector3sub(Vector3& v1, Vector3& v2);
+
+Vector3 normalize(Vector3& vec);
+
+float length(Vector3& vec);

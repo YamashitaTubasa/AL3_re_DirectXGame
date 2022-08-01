@@ -106,3 +106,25 @@ Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
 	return dirVector;
 }
 
+Vector3 Vector3sub(Vector3& v1, Vector3& v2)
+{
+	Vector3 temp(v2);
+	return temp -= v1;
+}
+
+Vector3 normalize(Vector3& vec)
+{
+	float len = length(vec);
+
+	if (len != 0) {
+		return vec /= len;
+	}
+
+	return vec;
+}
+
+float length(Vector3& vec)
+{
+	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+}
+

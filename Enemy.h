@@ -55,6 +55,14 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
+	// 弾リストを取得
+	const std::list < std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+
+	float GetRadius();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -78,5 +86,7 @@ private:
 	int32_t fireTimer = 0;
 	// 自キャラ
 	Player* player_ = nullptr;
+	// 半径
+	const float radius_ = 1.0f;
 };
 
