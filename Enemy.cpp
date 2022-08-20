@@ -166,3 +166,8 @@ Vector3 Enemy::GetWorldPosition() {
     return worldPos;
 }
 
+void Enemy::OnCollision() {}
+
+float Enemy::GetRadius() {
+    return radius_;
+}

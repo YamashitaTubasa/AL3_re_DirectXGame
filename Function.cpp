@@ -106,25 +106,27 @@ Vector3 CreateVector(Vector3 velocity, WorldTransform& worldTransform) {
 	return dirVector;
 }
 
+// 差分ベクトルを求める
 Vector3 Vector3sub(Vector3& v1, Vector3& v2)
 {
 	Vector3 temp(v2);
 	return temp -= v1;
 }
 
-Vector3 normalize(Vector3& vec)
+// ベクトルの正規化
+Vector3 Normalize(Vector3& vector)
 {
-	float len = length(vec);
+	float len = length(vector);
 
 	if (len != 0) {
-		return vec /= len;
+		return vector /= len;
 	}
 
-	return vec;
+	return vector;
 }
 
-float length(Vector3& vec)
+float length(Vector3& vector)
 {
-	return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+	return std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
 }
 

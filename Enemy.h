@@ -88,5 +88,8 @@ private:
 	Player* player_ = nullptr;
 	// 半径
 	const float radius_ = 1.0f;
+	// デスフラグ
+	bool isDead_ = false;
+
 };
 

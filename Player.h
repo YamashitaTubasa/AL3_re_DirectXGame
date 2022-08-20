@@ -64,4 +64,6 @@ private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	// 半径
 	const float radius_ = 1.0f;
+	// デスフラグ
+	bool isDead_ = false;
 };
