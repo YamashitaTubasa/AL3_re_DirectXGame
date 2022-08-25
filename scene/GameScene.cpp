@@ -121,6 +121,7 @@ GameScene::~GameScene() {
 	delete model_;
 	delete debugCamera_;
 	delete player_;
+	delete modelSkydome_;
 }
 
 void GameScene::Initialize() {
@@ -150,7 +151,16 @@ void GameScene::Initialize() {
 
 	// 敵キャラに時期キャラのアドレスを渡す
 	enemy_->SetPlayer(player_);
+
+	// 3Dモデルの生成
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	
+	// 天球の生成
+	skydome_ = new Skydome();
+
+	// 背景
+	skydome_->Initialize(modelSkydome_);
+
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
 
@@ -212,6 +222,9 @@ void GameScene::Update() {
 	enemy_->Update();
 
 	CheckAllCollisions();
+
+	// 背景の更新
+	skydome_->Update();
 
 	////-------クリップ距離変更処理-------////
 	//{
@@ -375,6 +388,9 @@ void GameScene::Draw() {
 
 	// 敵キャラの描画
 	enemy_->Draw(viewProjection_);
+
+	// 背景の描画
+	skydome_->Draw(viewProjection_);
 	
 	////3Dモデル
 	//model_->Draw(worldTransforms_[100], viewProjection_, textureHandle_);

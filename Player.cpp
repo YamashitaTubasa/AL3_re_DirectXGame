@@ -10,6 +10,8 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
     model_ = model;
     textureHandle_ = textureHandle; 
 
+    worldTransform_.translation_ = { 0,0,-10 };
+
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
     debugText_ = DebugText::GetInstance();
@@ -62,13 +64,7 @@ void Player::Update() {
     worldTransform_.translation_ += move;
 
     // 行列更新
-    worldTransform_.matWorld_ = CreateMatIdentity();
-    worldTransform_.matWorld_ *= CreateMatScale(worldTransform_.scale_);
-    worldTransform_.matWorld_ *= CreateMatRotationX(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatRotationY(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatRotationZ(worldTransform_.rotation_);
-    worldTransform_.matWorld_ *= CreateMatTranslation(worldTransform_.translation_);
-    worldTransform_.TransferMatrix();
+    CreateMatrixUpdate(worldTransform_);
 
     // キャラクターの旋回処理
     Rotate(worldTransform_, input_);

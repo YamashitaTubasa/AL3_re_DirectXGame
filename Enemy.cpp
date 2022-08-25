@@ -14,7 +14,7 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
     worldTransform_.rotation_ = { 0, 0, 0 };
 
     // 敵キャラの位置
-    worldTransform_.translation_ = { 0,0,40 };
+    worldTransform_.translation_ = { 0,0,100 };
 
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
@@ -114,13 +114,30 @@ void Enemy::Fire() {
 // 接近フェーズの更新
 void Enemy::AccessPhaseUpdate() {
     // 移動 (ベクトルを加算)
-    worldTransform_.translation_ -= {0.0, 0.0, 0.05};
+    if (worldTransform_.translation_.z <= 100 && worldTransform_.translation_.z > 80) {
+        worldTransform_.translation_ -= {0.0, 0.0, 0.05};
+    }
+
+    if (worldTransform_.translation_.z < 80 && worldTransform_.translation_.z > 60) {
+        worldTransform_.translation_ -= {0.05, 0.0, 0.05};
+    }
+
+    if (worldTransform_.translation_.z < 60 && worldTransform_.translation_.z > 40) {
+        worldTransform_.translation_ -= {0.05, 0.05, 0.05};
+    }
+
+    if (worldTransform_.translation_.z < 40 && worldTransform_.translation_.z > 20) {
+        worldTransform_.translation_ -= {-0.1, 0.0, 0.05};
+    }
+
+    if (worldTransform_.translation_.z < 20 && worldTransform_.translation_.z >= 0) {
+        worldTransform_.translation_ -= {-0.05, -0.05, 0.05};
+    }
 
     //規定の位置に到達したら離脱
     if (worldTransform_.translation_.z < 0.0f) {
         phase_ = Enemy::Phase::Leave;
     }
-
     // 発射タイマーカウントダウン
     fireTimer--;
 
@@ -142,7 +159,15 @@ void Enemy::ApproachInitialize() {
 // 離脱フェーズの更新
 void Enemy::EliminationPhaseUpdate() {
     // 移動（ベクトルを加算）
-    worldTransform_.translation_ += {0.05, 0.05, 0};
+    if (worldTransform_.translation_.y < 0) {
+        worldTransform_.translation_ += {0.05, 0.05, 0};
+    }
+    if (worldTransform_.translation_.y > 0) {
+        worldTransform_.translation_ += {-0.05, 0.05, 0};
+    }
+    if (worldTransform_.translation_.y > 50) {
+        worldTransform_.translation_ += {-0.05, -0.05, 0};
+    }
 
     // 発射タイマーカウントダウン
     fireTimer--;

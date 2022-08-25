@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "EnemyBullet.h"
+#include "Skydome.h"
 
 
 /// <summary>
@@ -79,6 +80,7 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	DebugText* debugText_ = nullptr;
+	WorldTransform worldTransform_;
 	//3Dモデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
@@ -93,6 +95,11 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
+	// 背景
+	Skydome* skydome_ = nullptr;
+	// 3Dモデル
+	Model* modelSkydome_ = nullptr;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
