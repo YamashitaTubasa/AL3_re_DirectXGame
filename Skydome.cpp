@@ -1,6 +1,7 @@
 #include "Skydome.h"
 
 void Skydome::Initialize(Model* model) {
+
     // NULLポインタチェック
     assert(model);
 
