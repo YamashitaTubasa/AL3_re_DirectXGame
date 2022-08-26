@@ -161,6 +161,12 @@ void GameScene::Initialize() {
 	// 背景
 	skydome_->Initialize(modelSkydome_);
 
+	// レールカメラ生成
+	railCamera_ = new RailCamera();
+
+	// レールカメラ初期化
+	railCamera_->Initialize();
+
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
 
@@ -225,6 +231,9 @@ void GameScene::Update() {
 
 	// 背景の更新
 	skydome_->Update();
+
+	// レールカメラ更新
+	railCamera_->Update();
 
 	////-------クリップ距離変更処理-------////
 	//{
