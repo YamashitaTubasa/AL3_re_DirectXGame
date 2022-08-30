@@ -16,6 +16,7 @@
 #include "EnemyBullet.h"
 #include "Skydome.h"
 #include "RailCamera.h"
+#include "Function.h"
 
 
 /// <summary>
@@ -78,9 +79,13 @@ public: // メンバ関数
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
+	// 入力処理するため
 	Input* input_ = nullptr;
+	// 音楽
 	Audio* audio_ = nullptr;
+	// デバックテキスト
 	DebugText* debugText_ = nullptr;
+	// ワールド変換データ
 	WorldTransform worldTransform_;
 	//3Dモデル
 	Model* model_ = nullptr;
@@ -102,6 +107,7 @@ private: // メンバ変数
 	Model* modelSkydome_ = nullptr;
 	// レールカメラ
 	RailCamera* railCamera_ = nullptr;
+	//std::unique_ptr<RailCamera> railCamera_;
 
 	/// <summary>
 	/// ゲームシーン用

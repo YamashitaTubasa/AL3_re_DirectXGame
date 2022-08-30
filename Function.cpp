@@ -79,6 +79,10 @@ void CreateMatrixUpdate(WorldTransform& worldTransform_) {
 	worldTransform_.matWorld_ *= CreateMatRotationX(worldTransform_.rotation_);
 	worldTransform_.matWorld_ *= CreateMatTranslation(worldTransform_.translation_);
 
+	if (worldTransform_.parent_ != nullptr) {
+		worldTransform_.matWorld_ *= worldTransform_.parent_->matWorld_;
+	}
+
 	//行列の転送
 	worldTransform_.TransferMatrix();
 }
@@ -128,5 +132,16 @@ Vector3 Normalize(Vector3& vector)
 float length(Vector3& vector)
 {
 	return std::sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+}
+
+// 行列とベクトルの掛け算
+Vector3 Vector3TransformNormal(Vector3& velocity, Matrix4& mat) {
+	Vector3 result;
+
+	result.x = velocity.x * mat.m[0][0] +velocity.y * mat.m[1][0] +velocity.z * mat.m[2][0];
+	result.y = velocity.x * mat.m[0][1] +velocity.y * mat.m[1][1] +velocity.z * mat.m[2][1];
+	result.z = velocity.x * mat.m[0][2] +velocity.y * mat.m[1][2] +velocity.z * mat.m[2][2];
+
+	return result;
 }
 

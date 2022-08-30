@@ -2,7 +2,6 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "PrimitiveDrawer.h"
-#include "Function.h"
 #include <random>
 
 #define PI 3.14
@@ -163,9 +162,14 @@ void GameScene::Initialize() {
 
 	// レールカメラ生成
 	railCamera_ = new RailCamera();
+	//railCamera_ = std::make_unique<RailCamera>();
 
 	// レールカメラ初期化
-	railCamera_->Initialize();
+	railCamera_->Initialize(Vector3(0,0,-50),Vector3(0,0,0));
+
+	// 自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(railCamera_->GetWorldMatrix());
+
 
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
@@ -201,25 +205,19 @@ void GameScene::Initialize() {
 
 	//ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
-
-	//Matrix4 matIdentity;
-	//matIdentity.m[0][0] = 1;
-	//matIdentity.m[1][1] = 1;
-	//matIdentity.m[2][2] = 1;
-	//matIdentity.m[3][3] = 1;
-
-	///*{
-	//	1,0,0,0
-	//	0,1,0,0
-	//	0,0,1,0
-	//	0,0,0,1
-	//}*/
-
 }
 
 void GameScene::Update() {
 	//デバックカメラの更新
 	/*debugCamera_->Update();*/
+	// レールカメラ更新
+	railCamera_->Update();
+
+	// railCameraをゲームシーンのカメラに適応する
+	viewProjection_.matView = railCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+	// ビュープロジェクションの転送
+	viewProjection_.TransferMatrix();
 
 	// 自キャラの更新
 	player_->Update();
@@ -227,14 +225,14 @@ void GameScene::Update() {
 	// 敵キャラの更新
 	enemy_->Update();
 
+	// 衝突判定と応答
 	CheckAllCollisions();
 
 	// 背景の更新
 	skydome_->Update();
 
-	// レールカメラ更新
-	railCamera_->Update();
 
+#pragma region 処理
 	////-------クリップ距離変更処理-------////
 	//{
 	//	//上下キーニアクリップ距離を増減
@@ -361,6 +359,7 @@ void GameScene::Update() {
 	//					   viewProjection_.up.y,
 	//					   viewProjection_.up.z);
 	//}
+#pragma endregion
 }
 
 void GameScene::Draw() {

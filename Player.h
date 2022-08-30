@@ -49,6 +49,8 @@ public:
 
 	float GetRadius();
 
+	void SetParent(WorldTransform* worldTransform);
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

@@ -10,7 +10,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
     model_ = model;
     textureHandle_ = textureHandle; 
 
-    worldTransform_.translation_ = { 0,0,-10 };
+    worldTransform_.translation_ = { 0,0,20 };
 
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
@@ -56,6 +56,9 @@ void Player::Update() {
     const float kMoveLimitX = 35;
     const float kMoveLimitY = 19;
 
+    // キャラクターの旋回処理
+    Rotate(worldTransform_, input_);
+
     // 範囲を超えない処理worldTrandform_.translation_値に制限をかける
     worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
     worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
@@ -65,9 +68,6 @@ void Player::Update() {
 
     // 行列更新
     CreateMatrixUpdate(worldTransform_);
-
-    // キャラクターの旋回処理
-    Rotate(worldTransform_, input_);
 
     // キャラクター攻撃処理
     Attack();
@@ -97,7 +97,7 @@ void Player::Attack() {
         velocity = CreateVector(velocity, worldTransform_);
 
         // 自キャラの座標をコピー
-        Vector3 position = worldTransform_.translation_;
+        Vector3 position = GetWorldPosition();
 
         // 弾を生成し、初期化
         std::unique_ptr<PlayerBullet>newBullet = std::make_unique<PlayerBullet>();
@@ -123,4 +123,9 @@ void Player::OnCollision() {}
 
 float Player::GetRadius() {
     return radius_;
+}
+
+// 自機キャラレールカメラの親子関係を結ぶ
+void Player:: SetParent(WorldTransform* worldTransform) {
+    worldTransform_.parent_ = worldTransform;
 }
