@@ -11,6 +11,8 @@
 
 // 自機クラスの前方宣言
 class Player;
+// GameeSceneの前方宣言（苦肉の策）
+class GameScene;
 
 class Enemy
 {
@@ -63,6 +65,8 @@ public:
 
 	float GetRadius();
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -90,6 +94,8 @@ private:
 	const float radius_ = 1.0f;
 	// デスフラグ
 	bool isDead_ = false;
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 
 };
 

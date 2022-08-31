@@ -105,6 +105,10 @@ void GameScene::CheckAllCollisions() {
 #pragma endregion
 }
 
+void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
+	// リストに登録
+	enemyBullets_.push_back(std::move(enemyBullet));
+}
 
 //乱数シード生成器
 std::random_device seed_gen;

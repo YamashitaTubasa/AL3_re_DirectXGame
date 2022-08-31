@@ -22,19 +22,21 @@
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene {
-
+class GameScene 
+{
 public: // メンバ関数
-  /// <summary>
-  /// コンストクラタ
-  /// </summary>
+	/// <summary>
+	/// コンストクラタ
+	/// </summary>
 	GameScene();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~GameScene();
 
 	//ワールドトランスフォーム
 	/*WorldTransform worldTransforms_[100];*/
-
-	//カメラ上方向の角度
-	float viewAngle = 4.0f;
 
 	//パーツID
 	enum Partid {
@@ -50,10 +52,6 @@ public: // メンバ関数
 
 		kNumPartid
 	};
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~GameScene();
 
 	/// <summary>
 	/// 初期化
@@ -75,7 +73,14 @@ public: // メンバ関数
 	/// </summary>
 	void CheckAllCollisions();
 
+	/// <summary>
+	/// 敵弾を追加
+	/// </summary>
+	/// <param name="enemyBullet">敵弾</param>
+	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
+
 	float Angle(float angle);
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -108,8 +113,9 @@ private: // メンバ変数
 	// レールカメラ
 	RailCamera* railCamera_ = nullptr;
 	//std::unique_ptr<RailCamera> railCamera_;
+	// 敵弾
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
+	//カメラ上方向の角度
+	float viewAngle = 4.0f;
 };
