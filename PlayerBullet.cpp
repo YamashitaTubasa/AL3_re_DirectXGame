@@ -11,7 +11,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position, const Vecto
 	velocity_ = velocity;
 
 	// テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("black.png");
+	textureHandle_ = TextureManager::Load("bullet1.png");
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();

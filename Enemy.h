@@ -47,7 +47,7 @@ public:
 	};
 
 	// 発射間隔
-	static const int kFireInterval = 60;
+	static const int kFireInterval = 70;
 
 	// 接近フェーズの初期化
 	void ApproachInitialize();
@@ -56,6 +56,8 @@ public:
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
+
+	bool IsDead() const { return isDead_; }
 
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();

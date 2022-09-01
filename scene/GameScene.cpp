@@ -30,24 +30,24 @@ void GameScene::CheckAllCollisions() {
 	posA = player_->GetWorldPosition();
 
 	// 自キャラと敵弾全ての当たり判定
-	for (const std::unique_ptr<EnemyBullet>& bullet : enemyBullets)
+	for (const std::unique_ptr<EnemyBullet>& enemyBullet : enemyBullets)
 	{
 		// 敵弾の座標
-		posB = bullet->GetWorldPosition();
+		posB = enemyBullet->GetWorldPosition();
 
 		// 座標AとBの距離を求める
 		Vector3 len = Vector3sub(posA, posB);
 		float distance = length(len);
 
 		// 自キャラと敵弾の半径
-		float radius = player_->GetRadius() + bullet->GetRadius();
+		float radius = player_->GetRadius() + enemyBullet->GetRadius();
 
 		// 自キャラと敵弾の交差判定
 		if (distance <= radius) {
 			// 自キャラの衝突時コールバックを呼び出す
 			player_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
-			bullet->OnCollision();
+			enemyBullet->OnCollision();
 		}
 	}
 #pragma endregion
@@ -57,58 +57,60 @@ void GameScene::CheckAllCollisions() {
 	posA = enemy_->GetWorldPosition();
 
 	// 自弾と敵キャラ全ての当たり判定
-	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets)
+	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets)
 	{
-		// 敵弾の座標
-		posB = bullet->GetWorldPosition();
+		// 自弾の座標
+		posB = playerBullet->GetWorldPosition();
 		// AとBの距離を求める
 		Vector3 len = Vector3sub(posA, posB);
 		float distance = length(len);
 
 		// 自弾と敵キャラの半径
-		float radius = enemy_->GetRadius() + bullet->GetRadius();
+		float radius = enemy_->GetRadius() + playerBullet->GetRadius();
 
 		// 自弾と敵キャラの交差判定
 		if (distance <= radius) {
 			// 敵キャラの衝突時コールバックを呼び出す
 			enemy_->OnCollision();
 			// 自弾の衝突時コールバックを呼び出す
-			bullet->OnCollision();
+			playerBullet->OnCollision();
+			// クリアシーン
+			clearSceneFlag = 1;
 		}
 	}
 #pragma endregion
 
 #pragma region 自弾と敵弾の当たり判定
 	// 自弾と敵弾全ての当たり判定
-	for (const std::unique_ptr<PlayerBullet>& bulletA : playerBullets) {
-		for (const std::unique_ptr<EnemyBullet>& bulletB : enemyBullets) {
+	for (const std::unique_ptr<PlayerBullet>& playerBullet : playerBullets) {
+		for (const std::unique_ptr<EnemyBullet>& enemyBullet: enemyBullets) {
 
 			// 自弾の座標
-			posB = bulletA->GetWorldPosition();
+			posA = playerBullet->GetWorldPosition();
 			// 敵弾の座標
-			posA = bulletB->GetWorldPosition();
+			posB = enemyBullet->GetWorldPosition();
 
 			Vector3 len = Vector3sub(posA, posB);
 			// 座標AとBの距離を求める
 			float distance = length(len);
 
 			// 自弾と敵弾の半径
-			float radius = bulletB->GetRadius() + bulletA->GetRadius();
+			float radius = enemyBullet->GetRadius() + playerBullet->GetRadius();
 
 			// 自弾と敵弾の交差判定
 			if (distance <= radius) {
-				bulletB->OnCollision();
-				bulletA->OnCollision();
+				enemyBullet->OnCollision();
+				playerBullet->OnCollision();
 			}
 		}
 	}
 #pragma endregion
 }
 
-void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
-	// リストに登録
-	enemyBullets_.push_back(std::move(enemyBullet));
-}
+//void GameScene::AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet) {
+//	// リストに登録
+//	enemyBullets_.push_back(std::move(enemyBullet));
+//}
 
 //乱数シード生成器
 std::random_device seed_gen;
@@ -135,7 +137,16 @@ void GameScene::Initialize() {
 	debugText_ = DebugText::GetInstance();
 
 	//ファイル名を指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("mario.jpg");
+	textureHandle_ = TextureManager::Load("fighter1.png");
+	textureHandle1_ = TextureManager::Load("fighter2.png");
+	textureHandle2_ = TextureManager::Load("GAMECLEAR.png");
+	textureHandle3_ = TextureManager::Load("GAMESTART.png");
+	// サウンドデータの読み込み
+	soundDateHandle_ = audio_->LoadWave("1.wav");
+	// 音声再生
+	audio_->PlayWave(soundDateHandle_);
+	// 音声再生
+	voiceHandle_ = audio_->PlayWave(soundDateHandle_, true);
 
 	//3Dモデルの生成
 	model_ = Model::Create();
@@ -148,12 +159,16 @@ void GameScene::Initialize() {
 
 	// 敵キャラの生成
 	enemy_ = new Enemy();
-
+	/*std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();*/
 	// 敵キャラの初期化
-	enemy_->Initialize(model_, textureHandle_);
+	enemy_->Initialize(model_, textureHandle1_);
+
+	// 敵を登録
+	/*enemy1_.push_back(std::move(newEnemy));*/
 
 	// 敵キャラに時期キャラのアドレスを渡す
 	enemy_->SetPlayer(player_);
+	
 
 	// 3Dモデルの生成
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -174,6 +189,19 @@ void GameScene::Initialize() {
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(railCamera_->GetWorldMatrix());
 
+	// クリアシーンの生成
+	clearScene_ = new ClearScene();
+	// クリアシーンの初期化
+	clearScene_->Initialize(model_, textureHandle2_);
+	// クリアシーンとレールカメラの親子関係を結ぶ
+	clearScene_->SetParent(railCamera_->GetWorldMatrix());
+
+	// スタートシーンの生成
+	startScene_ = new StartScene();
+	// スタートシーンの初期化
+	startScene_->Initialize(model_, textureHandle3_);
+	// スタートシーンとレールカメラの親子関係を結ぶ
+	startScene_->SetParent(railCamera_->GetWorldMatrix());
 
 	////カメラ視点座標を設定
 	//viewProjection_.eye = { 0,0,-10 };
@@ -212,6 +240,10 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+	// デスフラグの立った弾を削除
+	/*enemy1_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+		return enemy->IsDead();
+		});*/
 	//デバックカメラの更新
 	/*debugCamera_->Update();*/
 	// レールカメラ更新
@@ -228,14 +260,51 @@ void GameScene::Update() {
 
 	// 敵キャラの更新
 	enemy_->Update();
-
+	
 	// 衝突判定と応答
 	CheckAllCollisions();
 
 	// 背景の更新
 	skydome_->Update();
 
+	// クリアシーンの更新
+	clearScene_->Update();
 
+	// スタートシーンの更新
+	startScene_->Update();
+
+	// リセット
+	if (input_->TriggerKey(DIK_R)) {
+		skydome_->Initialize(modelSkydome_);
+		enemy_->Initialize(model_, textureHandle1_);
+		railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
+		clearScene_->Initialize(model_, textureHandle2_);
+		startScene_->Initialize(model_, textureHandle3_);
+		clearSceneFlag = 0;
+		startSceneFlag = 0;
+	}
+
+	// 音楽
+	if (input_->TriggerKey(DIK_SPACE)) {
+		audio_->StopWave(voiceHandle_);
+	}
+
+	// ゲームスタート
+	if (input_->TriggerKey(DIK_E)) {
+		skydome_->Initialize(modelSkydome_);
+		enemy_->Initialize(model_, textureHandle1_);
+		railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
+		clearScene_->Initialize(model_, textureHandle2_);
+		startScene_->Initialize(model_, textureHandle3_);
+		startSceneFlag = 1;
+	}
+
+	railCameraTimer++;
+	if (railCameraTimer >= 1250) {
+		railCamera_->Initialize(Vector3(0, 0, -50), Vector3(0, 0, 0));
+		railCameraTimer = 0;
+	}
+	
 #pragma region 処理
 	////-------クリップ距離変更処理-------////
 	//{
@@ -400,9 +469,19 @@ void GameScene::Draw() {
 
 	// 敵キャラの描画
 	enemy_->Draw(viewProjection_);
-
+	
 	// 背景の描画
 	skydome_->Draw(viewProjection_);
+
+	// クリアシーンの描画
+	if (clearSceneFlag == 1) {
+		clearScene_->Draw(viewProjection_);
+	}
+
+	// クリアシーンの描画
+	if (startSceneFlag == 0) {
+		startScene_->Draw(viewProjection_);
+	}
 	
 	////3Dモデル
 	//model_->Draw(worldTransforms_[100], viewProjection_, textureHandle_);
@@ -420,7 +499,10 @@ void GameScene::Draw() {
 	/// </summary>
 
 	// デバッグテキストの描画
-	debugText_->DrawAll(commandList);
+	/*debugText_->DrawAll(commandList);
+	debugText_->SetPos(20, 20);
+	debugText_->Printf(
+		"Reset [ R ]");*/
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();

@@ -13,7 +13,7 @@ void Skydome::Initialize(Model* model) {
 }
 
 void Skydome::Update() { 
-    CreateMatrixUpdate(worldTransform_); 
+    CreateMatrixUpdate(worldTransform_);
 }
 
 void Skydome::Draw(ViewProjection viewProjection) {

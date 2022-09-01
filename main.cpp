@@ -68,7 +68,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (win->ProcessMessage()) {
 			break;
 		}
-
+		
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// ゲームシーンの毎フレーム処理

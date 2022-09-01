@@ -41,11 +41,11 @@ void RailCamera::Update() {
 	DebugText* debugText_ = DebugText::GetInstance();
 
 	// デバック用表示
-	debugText_->SetPos(20, 100);
+	/*debugText_->SetPos(20, 100);
 	debugText_->Printf(
 		"RaolCameera Pos:(%f,%f,%f)", viewProjection_.eye.x,
 		viewProjection_.eye.y,
-		viewProjection_.eye.z);
+		viewProjection_.eye.z);*/
 }
 
 void RailCamera::UpdateMatrix() {

@@ -17,6 +17,8 @@
 #include "Skydome.h"
 #include "RailCamera.h"
 #include "Function.h"
+#include "ClearScene.h"
+#include "StartScene.h"
 
 
 /// <summary>
@@ -81,6 +83,9 @@ public: // メンバ関数
 
 	float Angle(float angle);
 
+	// 弾リストを取得
+	/*const std::list < std::unique_ptr<Enemy>>& GetEnemy() { return enemy1_; }*/
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -96,10 +101,19 @@ private: // メンバ変数
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
+	uint32_t textureHandle1_ = 0;
+	uint32_t textureHandle2_ = 0;
+	uint32_t textureHandle3_ = 0;
+	// サウンドデータハンドル
+	uint32_t soundDateHandle_ = 0;
+	// 音声再生ハンドル
+	uint32_t voiceHandle_ = 0;
 	// 自キャラ
 	Player* player_ = nullptr;
 	// 敵キャラ
 	Enemy* enemy_ = nullptr;
+	// 自弾
+	PlayerBullet* playerBullet_ = nullptr;
 	// 敵弾
 	EnemyBullet* enemyBullet_ = nullptr;
 	//デバックカメラ
@@ -114,8 +128,17 @@ private: // メンバ変数
 	RailCamera* railCamera_ = nullptr;
 	//std::unique_ptr<RailCamera> railCamera_;
 	// 敵弾
-	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
-
+	/*std::list<std::unique_ptr<Enemy>> enemy1_;*/
+	// クリアシーン
+	ClearScene* clearScene_ = nullptr;
+	// クリアシーンフラグ
+	int clearSceneFlag = 0;
+	// スタートシーン
+	StartScene* startScene_ = nullptr;
+	// スタートシーンフラグ
+	int startSceneFlag = 0;
 	//カメラ上方向の角度
 	float viewAngle = 4.0f;
+	// レールカメラタイマー
+	float railCameraTimer = 0;
 };

@@ -11,7 +11,7 @@ void EnemyBullet::Initialize(Model* model, const Vector3& position, const Vector
 	velocity_ = velocity;
 
 	// テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("yellow.png");
+	textureHandle_ = TextureManager::Load("bullet2.png");
 
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();

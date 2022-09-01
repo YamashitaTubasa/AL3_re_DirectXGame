@@ -9,19 +9,18 @@
 #include "Enemy.h"
 #include <memory>
 #include <list>
-
 /// <summary>
-/// 自キャラ
+/// クリアシーン
 /// </summary>
-class Player
+class StartScene
 {
 public:
 	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name = "model">モデル</param>
-	/// <param mame = "textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model,uint32_t textureHandle);
+		/// 初期化
+		/// </summary>
+		/// <param name = "model">モデル</param>
+		/// <param mame = "textureHandle">テクスチャハンドル</param>
+	void Initialize(Model* model, uint32_t textureHandle);
 
 	/// <summary>
 	/// 更新
@@ -45,9 +44,6 @@ public:
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	// 弾リストを取得
-	const std::list < std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
-
 	float GetRadius();
 
 	void SetParent(WorldTransform* worldTransform);
@@ -62,11 +58,11 @@ private:
 	// 入力処理するため
 	Input* input_ = nullptr;
 	// デバックテキスト
-    DebugText* debugText_ = nullptr;
-	// 弾
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	DebugText* debugText_ = nullptr;
 	// 半径
 	const float radius_ = 1.0f;
 	// デスフラグ
 	bool isDead_ = false;
 };
+
+

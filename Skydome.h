@@ -36,4 +36,6 @@ private:
     WorldTransform worldTransform_;
     // ƒ‚ƒfƒ‹
     Model* model_ = nullptr;
+    //
+    Input* input_ = nullptr;
 };

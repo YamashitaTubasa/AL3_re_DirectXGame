@@ -114,7 +114,7 @@ void Enemy::Fire() {
 // 接近フェーズの更新
 void Enemy::AccessPhaseUpdate() {
     // 移動 (ベクトルを加算)
-    /*if (worldTransform_.translation_.z <= 100 && worldTransform_.translation_.z > 80) {
+    if (worldTransform_.translation_.z <= 100 && worldTransform_.translation_.z > 80) {
         worldTransform_.translation_ -= {0.0, 0.0, 0.05};
     }
 
@@ -123,17 +123,18 @@ void Enemy::AccessPhaseUpdate() {
     }
 
     if (worldTransform_.translation_.z < 60 && worldTransform_.translation_.z > 40) {
-        worldTransform_.translation_ -= {0.05, 0.05, 0.05};
+        worldTransform_.translation_ -= {-0.05, 0.03, 0.05};
     }
 
     if (worldTransform_.translation_.z < 40 && worldTransform_.translation_.z > 20) {
-        worldTransform_.translation_ -= {-0.1, 0.0, 0.05};
+        /*worldTransform_.translation_ -= {-0.1, 0.0, 0.05};*/
+        worldTransform_.translation_ = { 0,0,100 };
     }
 
     if (worldTransform_.translation_.z < 20 && worldTransform_.translation_.z >= 0) {
         worldTransform_.translation_ -= {-0.05, -0.05, 0.05};
-    }*/
-    worldTransform_.translation_ -= {0.0, 0.0, 0.05};
+    }
+    /*worldTransform_.translation_ -= {0.0, 0.0, 0.05};*/
     //規定の位置に到達したら離脱
     if (worldTransform_.translation_.z < 0.0f) {
         phase_ = Enemy::Phase::Leave;
@@ -148,6 +149,9 @@ void Enemy::AccessPhaseUpdate() {
         // 発射タイマーを初期化
         fireTimer = kFireInterval;
     }
+    /*if (input_->TriggerKey(DIK_R)) {
+        worldTransform_.translation_ = { 0,0,100 };
+    }*/
 }
 
 // 接近フェーズの初期化
@@ -191,7 +195,9 @@ Vector3 Enemy::GetWorldPosition() {
     return worldPos;
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() {
+    isDead_ = true;
+}
 
 float Enemy::GetRadius() {
     return radius_;

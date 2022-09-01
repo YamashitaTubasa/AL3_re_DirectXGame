@@ -9,19 +9,18 @@
 #include "Enemy.h"
 #include <memory>
 #include <list>
-
 /// <summary>
-/// 自キャラ
+/// クリアシーン
 /// </summary>
-class Player
+class ClearScene
 {
 public:
 	/// <summary>
-	/// 初期化
-	/// </summary>
-	/// <param name = "model">モデル</param>
-	/// <param mame = "textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model,uint32_t textureHandle);
+		/// 初期化
+		/// </summary>
+		/// <param name = "model">モデル</param>
+		/// <param mame = "textureHandle">テクスチャハンドル</param>
+	void Initialize(Model* model, uint32_t textureHandle);
 
 	/// <summary>
 	/// 更新
@@ -62,7 +61,7 @@ private:
 	// 入力処理するため
 	Input* input_ = nullptr;
 	// デバックテキスト
-    DebugText* debugText_ = nullptr;
+	DebugText* debugText_ = nullptr;
 	// 弾
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	// 半径
@@ -70,3 +69,4 @@ private:
 	// デスフラグ
 	bool isDead_ = false;
 };
+

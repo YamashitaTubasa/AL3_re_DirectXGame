@@ -12,6 +12,8 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
     worldTransform_.translation_ = { 0,0,20 };
 
+    worldTransform_.scale_ = { 1,0.7,1 };
+
     // シングルトンインスタンスを取得する
     input_ = Input::GetInstance();
     debugText_ = DebugText::GetInstance();
@@ -88,7 +90,7 @@ void Player::Draw(ViewProjection viewProjection_) {
 }
 
 void Player::Attack() {
-    if (input_->PushKey(DIK_SPACE)) {
+    if (input_->PushKey(DIK_SPACE)) {//PushKey, TriggerKey
         // 弾の速度
         const float kBulletSpeed = 1.0f;
         Vector3 velocity(0, 0, kBulletSpeed);
