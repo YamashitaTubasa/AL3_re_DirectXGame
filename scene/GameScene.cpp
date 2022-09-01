@@ -502,7 +502,13 @@ void GameScene::Draw() {
 	/*debugText_->DrawAll(commandList);
 	debugText_->SetPos(20, 20);
 	debugText_->Printf(
-		"Reset [ R ]");*/
+		"move [ ←↑→↓ ]");
+	debugText_->SetPos(20, 40);
+	debugText_->Printf(
+		"rotation [ U ・I ]");
+	debugText_->SetPos(20, 60);
+	debugText_->Printf(
+		"shot [ SPACE ]");*/
 	//
 	// スプライト描画後処理
 	Sprite::PostDraw();
