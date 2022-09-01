@@ -4,6 +4,7 @@
 #include "ViewProjection.h"
 #include "DebugText.h"
 #include "Function.h"
+#include "Input.h"
 
 /// <summary>
 /// レールカメラ
@@ -43,5 +44,7 @@ private:
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
 	DebugText* debugText_ = nullptr;
+	// 入力処理するため
+	Input* input_ = nullptr;
 };
 

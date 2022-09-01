@@ -13,6 +13,13 @@ void RailCamera::Initialize(const Vector3& position, const Vector3& rotation) {
 void RailCamera::Update() {
 	// 移動（ベクトルを加算）
 	worldTransform_.translation_ += Vector3(0, 0, 0.07f);
+
+	/*if (input_->PushKey(DIK_U)) {
+		worldTransform_.translation_ += Vector3(0.1f, 0, 0);
+	}
+	if (input_->PushKey(DIK_I)) {
+		worldTransform_.translation_ += Vector3(-0.1f, 0, 0);
+	}*/
 	// ワールドトランスフォームを更新
 	UpdateMatrix();
 	// ワールド行列の平行移動成分を取得（ワールド座標）
