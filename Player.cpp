@@ -39,16 +39,16 @@ void Player::Update() {
     const float characterSpeed = 0.3f;
 
     // 移動ベクトルを変更する処理
-    if (input_->PushKey(DIK_LEFT)) {
+    if (input_->PushKey(DIK_LEFT) || input_->PushKey(DIK_A)) {
         move.x -= characterSpeed;
     }
-    if (input_->PushKey(DIK_RIGHT)) {
+    if (input_->PushKey(DIK_RIGHT) || input_->PushKey(DIK_D)) {
         move.x += characterSpeed;
     }
-    if (input_->PushKey(DIK_UP)) {
+    if (input_->PushKey(DIK_UP) || input_->PushKey(DIK_W)) {
         move.y += characterSpeed;
     }
-    if (input_->PushKey(DIK_DOWN)) {
+    if (input_->PushKey(DIK_DOWN) || input_->PushKey(DIK_S)) {
         move.y -= characterSpeed;
     }
 
