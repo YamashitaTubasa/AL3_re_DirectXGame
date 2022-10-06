@@ -63,12 +63,12 @@ public:
 	void OnCollision();
 
 	// 弾リストを取得
-	const std::list < std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+	/*const std::list < std::unique_ptr<EnemyBullet>>& GetBullets() { return enemyBullets_; }*/
 
 	float GetRadius();
 
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
-
+	
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -82,8 +82,6 @@ private:
 	DebugText* debugText_ = nullptr;
 	// フェーズ
 	Phase phase_ = Phase::Approach;
-	// 弾
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 	// 接近フェーズの更新
 	void AccessPhaseUpdate();
 	// 離脱フェーズの更新

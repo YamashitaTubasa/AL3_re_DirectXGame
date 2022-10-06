@@ -28,7 +28,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 void Player::Update() {
 
     // デスフラグの立った弾を削除
-    bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+    playerBullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
         return bullet->IsDead();
     });
 
@@ -74,8 +74,11 @@ void Player::Update() {
     // キャラクター攻撃処理
     Attack();
 
+    // ボム
+    Bomb();
+
     // 弾更新
-    for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+    for (std::unique_ptr<PlayerBullet>& bullet : playerBullets_) {
         bullet->Update();
     }
 }
@@ -84,7 +87,7 @@ void Player::Draw(ViewProjection viewProjection_) {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 
     // 弾描画
-    for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+    for (std::unique_ptr<PlayerBullet>& bullet : playerBullets_) {
         bullet->Draw(viewProjection_);
     }
 }
@@ -106,7 +109,7 @@ void Player::Attack() {
         newBullet->Initialize(model_, position, velocity);
 
         // 球を登録する
-        bullets_.push_back(std::move(newBullet));
+        playerBullets_.push_back(std::move(newBullet));
     }
 }
 
@@ -130,4 +133,11 @@ float Player::GetRadius() {
 // 自機キャラレールカメラの親子関係を結ぶ
 void Player:: SetParent(WorldTransform* worldTransform) {
     worldTransform_.parent_ = worldTransform;
+}
+
+// ボム
+void Player::Bomb() {
+    if (input_->TriggerKey(DIK_B)) {
+        isBomb_ = true;
+    }
 }

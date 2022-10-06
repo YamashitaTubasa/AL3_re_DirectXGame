@@ -46,11 +46,18 @@ public:
 	void OnCollision();
 
 	// 弾リストを取得
-	const std::list < std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+	const std::list < std::unique_ptr<PlayerBullet>>& GetBullets() { return playerBullets_; }
 
 	float GetRadius();
 
 	void SetParent(WorldTransform* worldTransform);
+
+	/// <summary>
+	/// ボム
+	/// </summary>
+	void Bomb();
+
+	bool IsBomb() const { return isBomb_; }
 
 private:
 	// ワールド変換データ
@@ -64,9 +71,11 @@ private:
 	// デバックテキスト
     DebugText* debugText_ = nullptr;
 	// 弾
-	std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	std::list<std::unique_ptr<PlayerBullet>> playerBullets_;
 	// 半径
 	const float radius_ = 1.0f;
 	// デスフラグ
 	bool isDead_ = false;
+	// ボムフラグ
+	bool isBomb_ = false;
 };

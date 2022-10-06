@@ -53,3 +53,4 @@ Vector3  EnemyBullet::GetWorldPosition() {
 float EnemyBullet::GetRadius() {
 	return radius_;
 }
+

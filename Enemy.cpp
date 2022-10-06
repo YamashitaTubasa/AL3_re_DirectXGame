@@ -28,10 +28,6 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle) {
 }
 
 void Enemy::Update() {
-    // デスフラグの立った弾を削除
-    bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
-        return bullet->IsDead();
-        });
 
     // キャラクターの移動ベクトル
     Vector3 move = { 0,0,0 };
@@ -63,19 +59,10 @@ void Enemy::Update() {
         break;
     }
 
-    // 弾更新
-    for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
-        bullet->Update();
-    }
 }
 
 void Enemy::Draw(ViewProjection viewProjection_) {
     model_->Draw(worldTransform_, viewProjection_, textureHandle_);
-    
-    // 弾描画
-    for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
-        bullet->Draw(viewProjection_);
-    }
 }
 
 void Enemy::Fire() {
@@ -107,8 +94,8 @@ void Enemy::Fire() {
     std::unique_ptr<EnemyBullet>newBullet = std::make_unique<EnemyBullet>();
     newBullet->Initialize(model_, position, velocity);
 
-    // 球を登録する
-    bullets_.push_back(std::move(newBullet));
+    //// 球を登録する
+    //enemyBullets_.push_back(std::move(newBullet));
 }
 
 // 接近フェーズの更新

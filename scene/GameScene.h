@@ -19,6 +19,8 @@
 #include "Function.h"
 #include "ClearScene.h"
 #include "StartScene.h"
+#include <list>
+#include <sstream>
 
 
 /// <summary>
@@ -81,10 +83,27 @@ public: // メンバ関数
 	/// <param name="enemyBullet">敵弾</param>
 	void AddEnemyBullet(std::unique_ptr<EnemyBullet> enemyBullet);
 
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
+	/// 敵の発生
+	/// </summary>
+	void EnemyOccurred(Vector3 EnemyPos);
+
+	/// <summary>
+	/// 角度
+	/// </summary>
+	/// <param name="angle"></param>
+	/// <returns></returns>
 	float Angle(float angle);
 
 	// 弾リストを取得
-	/*const std::list < std::unique_ptr<Enemy>>& GetEnemy() { return enemy1_; }*/
+	const std::list < std::unique_ptr<EnemyBullet>>& GetBullets() { return enemyBullets_; }
 
 
 private: // メンバ変数
@@ -111,11 +130,14 @@ private: // メンバ変数
 	// 自キャラ
 	Player* player_ = nullptr;
 	// 敵キャラ
-	Enemy* enemy_ = nullptr;
+	/*Enemy* enemy_ = nullptr;*/
+	std::list<std::unique_ptr<Enemy>> enemys_;
+	// 敵弾
+	std::list<std::unique_ptr<EnemyBullet>> enemyBullets_;
+	// 敵発生コマンド
+	std::stringstream enemyPopCommands;
 	// 自弾
 	PlayerBullet* playerBullet_ = nullptr;
-	// 敵弾
-	EnemyBullet* enemyBullet_ = nullptr;
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 	//ビュープロジェクション
@@ -127,8 +149,6 @@ private: // メンバ変数
 	// レールカメラ
 	RailCamera* railCamera_ = nullptr;
 	//std::unique_ptr<RailCamera> railCamera_;
-	// 敵弾
-	/*std::list<std::unique_ptr<Enemy>> enemy1_;*/
 	// クリアシーン
 	ClearScene* clearScene_ = nullptr;
 	// クリアシーンフラグ
@@ -141,4 +161,10 @@ private: // メンバ変数
 	float viewAngle = 4.0f;
 	// レールカメラタイマー
 	float railCameraTimer = 0;
+	Vector3 vector3(float x, float y, float z);
+	Vector4 vector4(int x, int y, int z, int w);
+	//待機中フラグ
+	bool isStand_ = false;
+	//待機タイマー
+	int standTime_ = 0;
 };
