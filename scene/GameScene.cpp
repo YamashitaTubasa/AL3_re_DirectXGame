@@ -3,6 +3,7 @@
 #include <cassert>
 #include "PrimitiveDrawer.h"
 #include <random>
+#include <fstream>
 
 #define PI 3.14
 
@@ -111,6 +112,86 @@ void GameScene::CheckAllCollisions() {
 //	// リストに登録
 //	enemyBullets_.push_back(std::move(enemyBullet));
 //}
+
+void GameScene::LoadObstaclePopData() {
+	//ファイルを開く
+	std::ifstream file;
+	file.open("Resources/ObstaclePop.csv");
+	assert(file.is_open());
+
+	//ファイルの内容を文字列ストリームにコピー
+	obstaclePopCommands << file.rdbuf();
+
+	//ファイルを閉じる
+	file.close();
+}
+
+void GameScene::UpdateObstaclePopCommands() {
+	if (isWait_) {
+		waitTimer--;
+		if (waitTimer <= 0) {
+			//待機完了
+			isWait_ = false;
+		}
+		return;
+	}
+
+	// 1行分の文字列を入れる変数
+	std::string line;
+
+	//コマンド実行ループ
+	while (getline(obstaclePopCommands, line)) {
+		// 1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string word;
+		//,区切りで行の先頭文字列を取得
+		getline(line_stream, word, ',');
+		// "//"から始まる行はコメント
+		if (word.find("//") == 0) {
+			//コメント行は飛ばす
+			continue;
+		}
+
+		// POPコマンド
+		if (word.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word, ',');
+			float x = (float)std::atof(word.c_str());
+
+			// y座標
+			getline(line_stream, word, ',');
+			float y = (float)std::atof(word.c_str());
+
+			// z座標
+			getline(line_stream, word, ',');
+			float z = (float)std::atof(word.c_str());
+
+			// 障害物を発生させる
+			/*Obstacle(Vector3(x, y, z);*/
+		}
+
+		// WAITコマンド
+		//else if (word.find("WAIT") == 0) {
+		//	getline(line_stream, word, ',');
+
+		//	//待ち時間
+		//	int32_t waitTime = atoi(word.c_str());
+
+		//	//待機開始
+		//	isWait_ = true;
+		//	waitTimer = waitTime;
+		//	// コマンドループを抜ける
+		//	break;
+		//}
+	}
+}
+
+Vector3 GameScene::Obstacle() {
+	Vector3 obstacle;
+
+	return obstacle;
+}
 
 //乱数シード生成器
 std::random_device seed_gen;

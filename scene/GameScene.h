@@ -19,6 +19,8 @@
 #include "Function.h"
 #include "ClearScene.h"
 #include "StartScene.h"
+#include <sstream>
+#include "Obstacle.h"
 
 
 /// <summary>
@@ -86,6 +88,20 @@ public: // メンバ関数
 	// 弾リストを取得
 	/*const std::list < std::unique_ptr<Enemy>>& GetEnemy() { return enemy1_; }*/
 
+	/// <summary>
+	/// 障害物発生データの読み込み
+	/// </summary>
+	void LoadObstaclePopData();
+
+	/// <summary>
+	/// 障害物発生コマンドの更新
+	/// </summary>
+	void UpdateObstaclePopCommands();
+
+	/// <summary>
+	/// 障害物
+	/// </summary>
+	Vector3 Obstacle();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -137,8 +153,13 @@ private: // メンバ変数
 	StartScene* startScene_ = nullptr;
 	// スタートシーンフラグ
 	int startSceneFlag = 0;
-	//カメラ上方向の角度
+	// カメラ上方向の角度
 	float viewAngle = 4.0f;
 	// レールカメラタイマー
 	float railCameraTimer = 0;
+	// 障害物発生コマンド
+	std::stringstream obstaclePopCommands;
+	bool isWait_ = false;
+	int waitTimer = 100;
+
 };
