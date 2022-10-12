@@ -116,7 +116,7 @@ void GameScene::CheckAllCollisions() {
 void GameScene::LoadObstaclePopData() {
 	//ファイルを開く
 	std::ifstream file;
-	file.open("Resources/ObstaclePop.csv");
+	file.open("Resources/obstaclePop.csv");
 	assert(file.is_open());
 
 	//ファイルの内容を文字列ストリームにコピー
@@ -168,7 +168,7 @@ void GameScene::UpdateObstaclePopCommands() {
 			float z = (float)std::atof(word.c_str());
 
 			// 障害物を発生させる
-			Obstacle(Vector3(x, y, z));
+			ObstacleOccurred(Vector3(x, y, z));
 		}
 
 		// WAITコマンド
@@ -187,7 +187,7 @@ void GameScene::UpdateObstaclePopCommands() {
 	}
 }
 
-void GameScene::Obstacle(Vector3 Obstacle) {
+void GameScene::ObstacleOccurred(Vector3 Obstacle) {
 	//敵キャラの生成
 	std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
 	//敵キャラの初期化

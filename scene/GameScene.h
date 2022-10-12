@@ -99,9 +99,9 @@ public: // メンバ関数
 	void UpdateObstaclePopCommands();
 
 	/// <summary>
-	/// 障害物
+	/// 障害物の発生
 	/// </summary>
-	void Obstacle(Vector3 Obstacle);
+	void ObstacleOccurred(Vector3 Obstacle);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
