@@ -168,7 +168,7 @@ void GameScene::UpdateObstaclePopCommands() {
 			float z = (float)std::atof(word.c_str());
 
 			// 障害物を発生させる
-			/*Obstacle(Vector3(x, y, z);*/
+			Obstacle(Vector3(x, y, z));
 		}
 
 		// WAITコマンド
@@ -187,10 +187,17 @@ void GameScene::UpdateObstaclePopCommands() {
 	}
 }
 
-Vector3 GameScene::Obstacle() {
-	Vector3 obstacle;
+void GameScene::Obstacle(Vector3 Obstacle) {
+	//敵キャラの生成
+	std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
+	//敵キャラの初期化
+	newObstacle->Initialize(model_, textureHandle_);
 
-	return obstacle;
+	//敵キャラにアドレスを渡す
+	newObstacle->SetPlayer(player_);
+
+	//リストに登録する
+	enemys_.push_back(std::move(newObstacle));
 }
 
 //乱数シード生成器

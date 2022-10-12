@@ -101,7 +101,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 障害物
 	/// </summary>
-	Vector3 Obstacle();
+	void Obstacle(Vector3 Obstacle);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
