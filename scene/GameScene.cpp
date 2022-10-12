@@ -197,7 +197,7 @@ void GameScene::ObstacleOccurred(Vector3 Obstacle) {
 	newObstacle->SetPlayer(player_);
 
 	//リストに登録する
-	enemys_.push_back(std::move(newObstacle));
+	obstacle_.push_back(std::move(newObstacle));
 }
 
 //乱数シード生成器

@@ -157,9 +157,10 @@ private: // メンバ変数
 	float viewAngle = 4.0f;
 	// レールカメラタイマー
 	float railCameraTimer = 0;
+	// 障害物
+	std::list<std::unique_ptr<Obstacle>> obstacle_;
 	// 障害物発生コマンド
 	std::stringstream obstaclePopCommands;
 	bool isWait_ = false;
 	int waitTimer = 100;
-
 };
