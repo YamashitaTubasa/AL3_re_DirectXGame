@@ -474,14 +474,14 @@ void GameScene::Draw() {
 	skydome_->Draw(viewProjection_);
 
 	// クリアシーンの描画
-	if (clearSceneFlag == 1) {
-		clearScene_->Draw(viewProjection_);
-	}
+	//if (clearSceneFlag == 1) {
+	//	clearScene_->Draw(viewProjection_);
+	//}
 
-	// クリアシーンの描画
-	if (startSceneFlag == 0) {
-		startScene_->Draw(viewProjection_);
-	}
+	//// クリアシーンの描画
+	//if (startSceneFlag == 0) {
+	//	startScene_->Draw(viewProjection_);
+	//}
 	
 	////3Dモデル
 	//model_->Draw(worldTransforms_[100], viewProjection_, textureHandle_);
