@@ -21,6 +21,8 @@
 #include "StartScene.h"
 #include <sstream>
 #include "Obstacle.h"
+#include <memory>
+#include <list>
 
 
 /// <summary>
@@ -161,6 +163,8 @@ private: // メンバ変数
 	std::list<std::unique_ptr<Obstacle>> obstacle_;
 	// 障害物発生コマンド
 	std::stringstream obstaclePopCommands;
+	// 障害物の待機中のフラグ
 	bool isWait_ = false;
+	// 障害物の待機タイマー
 	int waitTimer = 100;
 };

@@ -187,24 +187,25 @@ void GameScene::UpdateObstaclePopCommands() {
 	}
 }
 
-void GameScene::ObstacleOccurred(Vector3 Obstacle) {
-	//敵キャラの生成
+void GameScene::ObstacleOccurred(Vector3 ObstaclePos) {
+	// 障害物の生成
 	std::unique_ptr<Obstacle> newObstacle = std::make_unique<Obstacle>();
-	//敵キャラの初期化
+
+	// 障害物の初期化
 	newObstacle->Initialize(model_, textureHandle_);
 
-	//敵キャラにアドレスを渡す
+	// 障害物にアドレスを渡す
 	newObstacle->SetPlayer(player_);
 
-	//リストに登録する
+	// リストに登録する
 	obstacle_.push_back(std::move(newObstacle));
 }
 
-//乱数シード生成器
+// 乱数シード生成器
 std::random_device seed_gen;
-//メルセンヌ・ツイスターの乱数エンジン
+// メルセンヌ・ツイスターの乱数エンジン
 std::mt19937_64 engine(seed_gen());
-//乱数範囲の指定
+// 乱数範囲の指定
 std::uniform_real_distribution<float> posDist(-10.0f, 10.0f);
 std::uniform_real_distribution<float> rotDist(0.0f, 3.14f);
 
@@ -238,6 +239,9 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_ = Model::Create();
+
+	// 障害物のファイル読み込み
+	LoadObstaclePopData();
 
 	// 自キャラの生成
 	player_ = new Player();
@@ -342,6 +346,9 @@ void GameScene::Update() {
 	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
 	// ビュープロジェクションの転送
 	viewProjection_.TransferMatrix();
+
+	// 障害物の発生
+	UpdateObstaclePopCommands();
 
 	// 自キャラの更新
 	player_->Update();
